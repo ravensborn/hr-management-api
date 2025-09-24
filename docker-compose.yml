@@ -78,9 +78,34 @@ services:
     networks:
       - laravel
 
+
+
+  minio:
+      hostname: minio
+      image: quay.io/minio/minio:latest
+      container_name: hr-management-backend-minio
+      ports:
+          - "9027:9005"
+          - "9037:9088"
+      volumes:
+          - ./documentation/be-docker/data/minio-data:/data
+      environment:
+          MINIO_ROOT_USER: admin
+          MINIO_ROOT_PASSWORD: password
+      command: minio server --address ":9005" /data --console-address ":9088"
+      networks:
+          - laravel
+      restart: unless-stopped
+      healthcheck:
+          test: [ "CMD", "curl", "-f", "http://localhost:9005/minio/health/live" ]
+          interval: 30s
+          timeout: 10s
+          retries: 3
+          start_period: 20s
+
   redis:
     image: redis:alpine
-    container_name:  hr-management-redis
+    container_name:  hr-management-backend-redis
     command: redis-server --appendonly yes
     ports:
       - "63112:6379"
@@ -99,6 +124,7 @@ services:
 volumes:
   mysql-data:
   redis-data:
+  minio-data:
 
 networks:
   laravel:

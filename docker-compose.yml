@@ -1,0 +1,105 @@
+services:
+  app:
+    container_name: hr-management-backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: php
+      args:
+        - APP_ENV=${APP_ENV:-development}
+    environment:
+      - CONTAINER_ROLE=app
+      - APP_ENV=${APP_ENV:-development}
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www:delegated
+    ports:
+      - "8111:8080"
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - laravel
+    restart: unless-stopped
+
+  database:
+    container_name: hr-management-backend-database
+    image: mysql:8.0
+    ports:
+      - "33011:3306"
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ./documentation/be-docker/data/mysql-data:/var/lib/mysql
+    networks:
+      - laravel
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p${DB_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+
+  horizon:
+    container_name:  hr-management-backend-horizon
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: php
+    environment:
+      - CONTAINER_ROLE=horizon
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - app
+    networks:
+      - laravel
+
+  scheduler:
+    container_name:  hr-management-backend-scheduler
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: php
+    environment:
+      - CONTAINER_ROLE=scheduler
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - app
+    networks:
+      - laravel
+
+  redis:
+    image: redis:alpine
+    container_name:  hr-management-redis
+    command: redis-server --appendonly yes
+    ports:
+      - "63112:6379"
+    volumes:
+      - ./documentation/be-docker/data/redis-data/data:/data
+    networks:
+      - laravel
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  mysql-data:
+  redis-data:
+
+networks:
+  laravel:
+    driver: bridge

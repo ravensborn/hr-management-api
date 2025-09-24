@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\RegisterRequest;
+use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -24,10 +25,12 @@ class UserController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json([
-            'user' => $user,
-            'token' => $token,
-        ]);
+        return response()->json(
+            new UserResource([
+                'user' => $user,
+                'token' => $token,
+            ]),
+        );
     }
 
     public function register(RegisterRequest $request)
@@ -40,10 +43,13 @@ class UserController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json([
-            'user' => $user,
-            'token' => $token,
-        ], HttpStatus::HTTP_CREATED);
+        return response()->json(
+            new UserResource([
+                'user' => $user,
+                'token' => $token,
+            ]),
+            HttpStatus::HTTP_CREATED,
+        );
     }
 
     public function logout(Request $request)

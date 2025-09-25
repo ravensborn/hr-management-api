@@ -1,61 +1,107 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# HR Management API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## About
 
-## About Laravel
+This project is an API designed to manage users, employees, and related HR data. It provides endpoints for handling user accounts, employee records, and other HR management tasks.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 1. Project Overview
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+This project runs on the latest version of PHP 8.4 and is built using the Laravel framework version 12. This ensures a modern, efficient, and secure backend infrastructure to deliver a seamless experience.
 
-## Learning Laravel
+- Users Authentication
+- Employees Management
+- Employee Position Management
+- API Authentication using Laravel Sanctum
+- Importing Employees via background queues
+- Exporting Employees to CSV files in chunks and utilizing browser stream
+- Proper broadcasting and logging channels
+- Containerized using Docker for easy deployment and scalability
+- Action based pattern for better code organization and maintainability
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 2. Technologies
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **Backend**: PHP 8.4, Laravel 12.x
+- **Database**: MySQL 8.0
+- **Caching**: Redis
+- **Storage**: Laravel Local Storage Disk
+- **Containerization**: Docker & Docker Compose
+- **Testing**: Pest Framework
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 3. Packages Used
+- **Laravel Horizon** for running and monitoring queues.
+- **Laravel Sanctum** for API authentication.
+- **Laravel Audit** for auditing model changes.
+- **Spatie Query Builder** to enabling filtering.
+- **Spatie Simple Excel** for importing and exporting CSV files with memory in mind.
 
-## Laravel Sponsors
+## 5. Installation
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+A live demo of the application is available at [https://hr-management-api.onlyinternals.dev](https://hr-management-api.onlyinternals.dev/).
 
-### Premium Partners
+### 4.1 Running on Docker
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+#### Resources:
+- [Installing Docker & Docker Compose](https://docs.docker.com/engine/install/)
 
-## Contributing
+Follow these steps to set up and run the application using Docker:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/ravensborn/hr-management-api
+   cd hr-management-api
+   ```
 
-## Code of Conduct
+2. **Set Up Environment Variables**
+   ```bash
+   cp .env.example .env
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+3. **Start Docker Containers**
+   ```bash
+      docker compose up -d
+   ```
 
-## Security Vulnerabilities
+4. **Seed Test Data**
+   ```bash
+      docker docker exec -it hr-management-backend php artisan migrate:fresh --seed
+   ```
+   
+5. **Verify the Deployment**  
+   Access the application at [http://localhost:8111](http://localhost:8111)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
+### 4.1 Running Without Docker
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Copy the `.env.example` file to `.env`, then update the environment variables according to your setup.
+Make sure to configure the correct database connection, and ensure that a queue worker is properly running to handle background jobs. Seed the database with test data using the command below:
+
+```bash
+  php artisan migrate --seed
+```
+
+## 5. Postman Collection
+A Postman collection is provided in the `documentation` directory of the repository. You can import this collection into Postman to test the API endpoints. Its also available here: [HR Management API Postman Collection](https://documenter.getpostman.com/view/18062098/2sB3QCTtsP) with a live testing environment.
+
+## 6. Test Files
+A sample CSV file for importing employees is available in the `documentation` directory of the repository.
+
+## 7. Testing
+
+The project includes comprehensive unit and integration tests to ensure reliability.
+
+### Running Tests (Docker)
+
+```bash
+# Run all tests
+docker exec -it hr-management-backend php artisan test
+
+# Generate coverage report
+docker exec -it hr-management-backend XDEBUG_MODE=coverage php artisan test --coverage
+
+# Run tests in parallel
+docker exec -it hr-management-backend php artisan test --parallel
+```
+
+## 7. General Notes
+ - The email and broadcast drivers are set to `log`. You view the email contents in the log file located at `storage/logs/laravel.log`.

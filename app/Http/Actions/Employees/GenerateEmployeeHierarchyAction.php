@@ -14,6 +14,6 @@ class GenerateEmployeeHierarchyAction
             $current = $current->manager;
         }
 
-        return $hierarchy;
+        return array_reverse($hierarchy);
     }
 }

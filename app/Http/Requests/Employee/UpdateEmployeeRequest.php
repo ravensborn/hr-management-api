@@ -12,6 +12,7 @@ class UpdateEmployeeRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:employees,email,'.$this->route()->parameter('employee')->id.'|max:255',
             'salary' => 'required|numeric',
             'is_founder' => 'required|boolean',
 
@@ -42,7 +43,7 @@ class UpdateEmployeeRequest extends FormRequest
                         ->whereNull('manager_id')
                         ->first();
 
-                    if($this->route()->parameter('employee')->id != $founder->id) {
+                    if ($this->route()->parameter('employee')->id != $founder->id) {
                         $validator->errors()->add(
                             'is_founder',
                             'Please assign the current founder as manager before changing this employee to founder.'
@@ -51,8 +52,7 @@ class UpdateEmployeeRequest extends FormRequest
 
                 }
 
-            }
+            },
         ];
     }
-
 }

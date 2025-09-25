@@ -17,6 +17,7 @@ class EmployeeResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'email' => $this->email,
             'salary' => $this->salary,
             'position' => $this->employeePosition->name,
             'manager' => $this->when($this->manager_id, function () {
@@ -25,7 +26,7 @@ class EmployeeResource extends JsonResource
                     'name' => $this->manager->name,
                 ];
             }),
-            'is_founder' => $this->when(!$this->manager_id, true),
+            'is_founder' => $this->when(! $this->manager_id, true),
         ];
     }
 }

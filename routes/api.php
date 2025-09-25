@@ -12,8 +12,17 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
     Route::middleware('auth:sanctum')
         ->group(function () {
+
             Route::post('/logout', [UserController::class, 'logout'])->name('logout');
             Route::apiResource('employee-positions', EmployeePositionController::class);
-            Route::apiResource('employees', EmployeeController::class);
+
+            Route::name('employees.')->group(function () {
+                Route::get('employees/{employee}/hierarchy', [EmployeeController::class, 'generateHierarchy'])->name('hierarchy');
+                Route::get('employees/{employee}/hierarchy-with-salaries', [EmployeeController::class, 'generateHierarchyWithSalary'])->name('hierarchy-with-salaries');
+                Route::get('employees/export', [EmployeeController::class, 'exportToCsv'])->name('export');
+                Route::post('employees/import', [EmployeeController::class, 'importFromCsv'])->name('import');
+                Route::apiResource('employees', EmployeeController::class);
+            });
+
         });
 });

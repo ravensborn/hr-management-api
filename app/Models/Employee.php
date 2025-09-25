@@ -10,9 +10,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Employee extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'id',
         'name',
+        'email',
         'salary',
         'manager_id',
         'employee_position_id',
@@ -26,6 +28,7 @@ class Employee extends Model
     {
         return $this->belongsTo(Employee::class, 'manager_id');
     }
+
     public function subordinates(): HasMany
     {
         return $this->hasMany(Employee::class, 'manager_id');

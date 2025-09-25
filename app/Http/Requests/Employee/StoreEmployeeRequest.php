@@ -12,6 +12,7 @@ class StoreEmployeeRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:employees,email|max:255',
             'salary' => 'required|numeric',
             'is_founder' => 'required|boolean',
 
@@ -27,7 +28,6 @@ class StoreEmployeeRequest extends FormRequest
         ];
     }
 
-
     public function after(): array
     {
         return [
@@ -36,7 +36,6 @@ class StoreEmployeeRequest extends FormRequest
                 if ($validator->failed()) {
                     return;
                 }
-
 
                 if ($this->request->getBoolean('is_founder')) {
 
@@ -52,8 +51,7 @@ class StoreEmployeeRequest extends FormRequest
                     }
                 }
 
-            }
+            },
         ];
     }
-
 }

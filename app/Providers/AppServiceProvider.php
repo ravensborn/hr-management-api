@@ -2,23 +2,24 @@
 
 namespace App\Providers;
 
+use App\Events\EmployeeCreated;
+use App\Events\SalaryChanged;
+use App\Listeners\HandleSalaryChanged;
+use App\Listeners\SendManagerNotification;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
-    public function register(): void
-    {
-        //
-    }
+    protected array $listen = [
+        EmployeeCreated::class => [
+            SendManagerNotification::class,
+        ],
+        SalaryChanged::class => [
+            HandleSalaryChanged::class,
+        ],
+    ];
 
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
-    {
-        //
-    }
+    public function register(): void {}
+
+    public function boot(): void {}
 }

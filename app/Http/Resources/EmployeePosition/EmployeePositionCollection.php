@@ -19,5 +19,4 @@ class EmployeePositionCollection extends ResourceCollection
             ],
         ];
     }
-
 }

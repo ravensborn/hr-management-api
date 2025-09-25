@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Employee;
 
-use App\Models\Employee;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 
@@ -31,8 +30,7 @@ class DestroyEmployeeRequest extends FormRequest
                     );
                 }
 
-            }
+            },
         ];
     }
-
 }

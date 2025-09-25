@@ -2,57 +2,72 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Actions\Employees\DestroyEmployeeAction;
+use App\Http\Actions\Employees\ExportToCsvAction;
+use App\Http\Actions\Employees\GenerateEmployeeHierarchyAction;
+use App\Http\Actions\Employees\ImportFrmCsvAction;
+use App\Http\Actions\Employees\ListEmployeeAction;
+use App\Http\Actions\Employees\StoreEmployeeAction;
+use App\Http\Actions\Employees\UpdateEmployeeAction;
 use App\Http\Requests\Employee\DestroyEmployeeRequest;
+use App\Http\Requests\Employee\Import\ImportRequest;
 use App\Http\Requests\Employee\StoreEmployeeRequest;
 use App\Http\Requests\Employee\UpdateEmployeeRequest;
 use App\Http\Resources\Employee\EmployeeCollection;
+use App\Http\Resources\Employee\Hierarchy\EmployeeHierarchyCollection;
+use App\Http\Resources\Employee\Hierarchy\EmployeeHierarchyWithSalaryCollection;
 use App\Models\Employee;
-use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response as HttpStatus;
 
 class EmployeeController extends Controller
 {
-    public function index()
+    public function index(ListEmployeeAction $action)
     {
-        $employees = QueryBuilder::for(Employee::class)
-            ->allowedFilters([
-                AllowedFilter::partial('name'),
-                AllowedFilter::exact('salary'),
-            ])
-            ->with(['employeePosition', 'manager'])
-            ->orderByDesc('created_at')
-            ->paginate(10);
-
-        return response()->json(new EmployeeCollection($employees));
+        return response()->json(new EmployeeCollection($action->handle()));
     }
 
-    public function store(StoreEmployeeRequest $request)
+    public function generateHierarchy(Employee $employee, GenerateEmployeeHierarchyAction $action)
     {
-        Employee::query()->create([
-            'name' => $request->name,
-            'salary' => $request->salary,
-            'manager_id' => $request->is_founder ? null : $request->manager_id,
-            'employee_position_id' => $request->employee_position_id,
-        ]);
+        return response()->json(new EmployeeHierarchyCollection($action->handle($employee)));
+    }
+
+    public function generateHierarchyWithSalary(Employee $employee, GenerateEmployeeHierarchyAction $action)
+    {
+        return response()->json(new EmployeeHierarchyWithSalaryCollection($action->handle($employee)));
+    }
+
+    public function store(StoreEmployeeRequest $request, StoreEmployeeAction $action)
+    {
+        $action->handle($request);
+
         return response()->noContent(HttpStatus::HTTP_CREATED);
     }
 
-    public function update(Employee $employee, UpdateEmployeeRequest $request)
+    public function update(Employee $employee, UpdateEmployeeRequest $request, UpdateEmployeeAction $action)
     {
-        $employee->update([
-            'name' => $request->name,
-            'salary' => $request->salary,
-            'manager_id' => $request->is_founder ? null : $request->manager_id,
-            'employee_position_id' => $request->employee_position_id,
-        ]);
+        $action->handle($employee, $request);
+
         return response()->noContent(HttpStatus::HTTP_CREATED);
     }
 
-    public function destroy(Employee $employee, DestroyEmployeeRequest $request) {
-        $employee->delete();
+    public function destroy(Employee $employee, DestroyEmployeeRequest $request, DestroyEmployeeAction $action)
+    {
+        $action->handle($employee);
+
         return response()->noContent(HttpStatus::HTTP_OK);
     }
 
+    public function exportToCsv(ExportToCsvAction $action)
+    {
+        return response()->streamDownload(function () use ($action) {
+            $action->handle();
+        });
+    }
 
+    public function importFromCsv(ImportRequest $request, ImportFrmCsvAction $action)
+    {
+        $action->handle($request);
+
+        return response()->noContent(HttpStatus::HTTP_OK);
+    }
 }

@@ -13,25 +13,28 @@ class EmployeePositionController extends Controller
     public function index()
     {
         $positions = EmployeePosition::query()->orderByDesc('created_at')->paginate(10);
+
         return response()->json(new EmployeePositionCollection($positions));
     }
 
     public function store(StoreOrUpdateEmployeePositionRequest $request)
     {
         EmployeePosition::query()->create($request->toArray());
+
         return response()->noContent(HttpStatus::HTTP_CREATED);
     }
 
     public function update(EmployeePosition $employeePosition, StoreOrUpdateEmployeePositionRequest $request)
     {
         $employeePosition->update($request->toArray());
+
         return response()->noContent(HttpStatus::HTTP_OK);
     }
 
     public function destroy(EmployeePosition $employeePosition, DestroyEmployeePositionRequest $request)
     {
         $employeePosition->delete();
+
         return response()->noContent(HttpStatus::HTTP_OK);
     }
-
 }

@@ -33,7 +33,7 @@ This project runs on the latest version of PHP 8.4 and is built using the Larave
 ## 3. Packages Used
 - **Laravel Horizon** for running and monitoring queues.
 - **Laravel Sanctum** for API authentication.
-- **Laravel Audit** for auditing model changes.
+- **Laravel Audit** for auditing/logging model changes.
 - **Spatie Query Builder** to enabling filtering.
 - **Spatie Simple Excel** for importing and exporting CSV files with memory in mind.
 

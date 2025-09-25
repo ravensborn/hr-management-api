@@ -56,7 +56,7 @@ class EmployeeController extends Controller
     {
         $action->handle($employee, $request);
 
-        return response()->noContent(HttpStatus::HTTP_CREATED);
+        return response()->noContent();
     }
 
     public function destroy(Employee $employee, DestroyEmployeeRequest $request, DestroyEmployeeAction $action)

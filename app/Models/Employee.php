@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Employee extends Model  implements Auditable
+class Employee extends Model implements Auditable
 {
     use HasFactory, \OwenIt\Auditing\Auditable;
 

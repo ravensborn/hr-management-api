@@ -19,7 +19,8 @@ class RemoveAllLogFiles extends Command
             File::delete($file->getPathname());
         }
 
-        $this->info("All log files have been removed.");
+        $this->info('All log files have been removed.');
+
         return 0;
     }
 }

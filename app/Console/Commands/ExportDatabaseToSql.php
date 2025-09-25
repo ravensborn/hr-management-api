@@ -32,7 +32,7 @@ class ExportDatabaseToSql extends Command
         if ($result === 0) {
             $this->info("Database exported to: $path");
         } else {
-            $this->error("Database export failed.");
+            $this->error('Database export failed.');
         }
 
         return $result;

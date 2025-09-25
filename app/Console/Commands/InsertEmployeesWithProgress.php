@@ -2,9 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use Faker\Factory as Faker;
 use App\Models\Employee;
+use Faker\Factory as Faker;
+use Illuminate\Console\Command;
+
 class InsertEmployeesWithProgress extends Command
 {
     protected $signature = 'app:insert-employees-with-progress {count}';

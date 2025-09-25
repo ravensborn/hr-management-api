@@ -19,6 +19,7 @@ This project runs on the latest version of PHP 8.4 and is built using the Larave
 - Containerized using Docker for easy deployment and scalability
 - Action based pattern for better code organization and maintainability
 - XDEBUG and PHP OPCACHE enabled.
+- Includes a production ready NGINX server configuration.
 
 ## 2. Technologies
 

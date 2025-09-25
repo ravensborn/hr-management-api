@@ -23,7 +23,7 @@ class Employee extends Model
 
     protected $casts = [
         'salary' => 'decimal:2',
-        'last_salary_change_date' => 'datetime'
+        'last_salary_change_date' => 'datetime',
     ];
 
     public function manager(): BelongsTo

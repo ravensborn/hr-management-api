@@ -2,7 +2,7 @@
 
 ## About
 
-This project is an API designed to manage users, employees, and related HR data. It provides endpoints for handling user accounts, employee records, and other HR management tasks.
+This project is an API designed to handle user authentication, employees, and related HR data. It provides endpoints for handling user accounts, employee records, and other HR management tasks.
 
 
 ## 1. Project Overview
@@ -18,6 +18,7 @@ This project runs on the latest version of PHP 8.4 and is built using the Larave
 - Proper broadcasting and logging channels
 - Containerized using Docker for easy deployment and scalability
 - Action based pattern for better code organization and maintainability
+- XDEBUG and PHP OPCACHE enabled.
 
 ## 2. Technologies
 
@@ -104,4 +105,4 @@ docker exec -it hr-management-backend php artisan test --parallel
 ```
 
 ## 7. General Notes
- - The email and broadcast drivers are set to `log`. You view the email contents in the log file located at `storage/logs/laravel.log`.
+ - The email and broadcast drivers are set to `log`. You can view the email contents in the log file located at `storage/logs/laravel.log`.

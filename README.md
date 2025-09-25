@@ -86,11 +86,13 @@ Make sure to configure the correct database connection, and ensure that a queue 
 A Postman collection is provided in the `documentation` directory of the repository. You can import this collection into Postman to test the API endpoints. Its also available here: [HR Management API Postman Collection](https://documenter.getpostman.com/view/18062098/2sB3QCTtsP) with a live testing environment.
 
 ## 6. Test Files
-A sample CSV file for importing employees is available in the `documentation` directory of the repository.
+- A sample CSV file for importing employees is available in the `documentation` directory of the repository.
+- A copy of database backup with test data is available in the `documentation` directory of the repository.
+
 
 ## 7. Testing
 
-The project includes comprehensive unit and integration tests to ensure reliability.
+- The project includes comprehensive unit and integration tests to ensure reliability.
 
 ### Running Tests (Docker)
 

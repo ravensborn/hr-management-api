@@ -18,10 +18,12 @@ class Employee extends Model
         'salary',
         'manager_id',
         'employee_position_id',
+        'last_salary_change_date',
     ];
 
     protected $casts = [
         'salary' => 'decimal:2',
+        'last_salary_change_date' => 'datetime'
     ];
 
     public function manager(): BelongsTo

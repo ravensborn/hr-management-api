@@ -27,6 +27,7 @@ return new class extends Migration
                 ->constrained()
                 ->restrictOnDelete()
                 ->restrictOnUpdate();
+            $table->dateTime('last_salary_change_date')->default(now());
             $table->timestamps();
         });
     }

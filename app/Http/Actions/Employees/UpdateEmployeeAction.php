@@ -11,6 +11,9 @@ class UpdateEmployeeAction
 
         if ((float) $employee->salary !== (float) $request->salary) {
 
+            $employee->update([
+                'last_salary_change_date' => now(),
+            ]);
             event(new SalaryChanged($employee, $request->salary));
         }
 

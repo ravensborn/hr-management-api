@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\Employee;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
@@ -50,6 +51,10 @@ class EmployeeSpreadsheetImport implements ShouldQueue
 
     private function cleanupFile(): void
     {
+        Log::channel('employee')->info('Attempting to delete file', [
+            'path' => $this->filePath,
+        ]);
+
         if (Storage::disk('local')->exists($this->filePath)) {
             Storage::disk('local')->delete($this->filePath);
         }

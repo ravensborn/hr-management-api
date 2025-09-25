@@ -52,6 +52,12 @@ return [
 
     'channels' => [
 
+        'employee' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/employee.log'),
+            'level' => 'info',
+        ],
+
         'stack' => [
             'driver' => 'stack',
             'channels' => explode(',', (string) env('LOG_STACK', 'single')),

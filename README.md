@@ -109,3 +109,8 @@ docker exec -it hr-management-backend php artisan test --parallel
 
 ## 7. General Notes
  - The email and broadcast drivers are set to `log`. You can view the email contents in the log file located at `storage/logs/laravel.log`.
+ - Available Commands:
+   - `php artisan employee-logs:cleanup` - Delete logs older than one month of employee logs table
+   - `php artisan app:export-database-to-sql {filename=backup.sql}` - Export the entire database to a SQL file
+   - `php artisan app:insert-employees-with-progress {count}` - Insert employee records with a progress bar
+   - `php artisan app:remove-all-log-files` - Remove all log files in the storage/logs directory

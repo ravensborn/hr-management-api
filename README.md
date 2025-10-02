@@ -34,7 +34,7 @@ This project runs on the latest version of PHP 8.4 and is built using the Larave
 - **Laravel Horizon** for running and monitoring queues.
 - **Laravel Sanctum** for API authentication.
 - **Laravel Audit** for auditing/logging model changes.
-- **Spatie Query Builder** to enabling filtering.
+- **Spatie Query Builder** to enable filtering.
 - **Spatie Simple Excel** for importing and exporting CSV files with memory in mind.
 
 ## 5. Installation
@@ -66,7 +66,7 @@ Follow these steps to set up and run the application using Docker:
 
 4. **Seed Test Data**
    ```bash
-      docker docker exec -it hr-management-backend php artisan migrate:fresh --seed
+      docker exec -it hr-management-backend php artisan migrate:fresh --seed
    ```
    
 5. **Verify the Deployment**  
